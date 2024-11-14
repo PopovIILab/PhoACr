@@ -14,3 +14,9 @@
 ```bash
 conda env create -f phoacr.yaml
 ```
+
+### System
+
+- OS: Ubuntu 22.04 (WSL2 on Windows 11 22H2)
+- RAM: 32GB (16 for WSL2)
+- CPU: Intel Xeon E5-2670v3
