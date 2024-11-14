@@ -34,6 +34,7 @@ meta.host <- as.data.frame(metadata[,'Host'])
 colnames(meta.host) <- 'Host'
 rownames(meta.host) <- metadata$Name
 meta.host$Host[meta.host$Host == "ND"] <- NA
+meta.host$Host[grepl("^Myotis brandtii", meta.host$Host)] <- "Myotis brandtii"
 meta.host$Host[meta.host$Host == "unknown"] <- "Bat"
 meta.host$Host[meta.host$Host == "bat"] <- "Bat"
 meta.host$Host[meta.host$Host == "P.nathusii"] <- "Pipistrellus nathusii"
@@ -52,6 +53,9 @@ colnames(meta.loc) <- 'Country'
 rownames(meta.loc) <- metadata$Name
 meta.loc$Country[meta.loc$Country == "ND"] <- NA
 meta.loc$Country[grepl("^Russia: Nov", meta.loc$Country)] <- "Russia: Novosibirsk"
+meta.loc["OR052074.1", "Country"] <- "Russia: Rostov-on-Don"
+meta.loc["OR052075.1", "Country"] <- "Russia: Rostov-on-Don"
+meta.loc["OR052076.1", "Country"] <- "Russia: Rostov-on-Don"
 meta.loc["EF203064.1", "Country"] <- "China: Guangdong"
 meta.loc["EU375869.1", "Country"] <- "Germany: Bad Segeberg"
 meta.loc["EU375864.1", "Country"] <- "Germany: Bad Segeberg"
@@ -179,13 +183,12 @@ tree_fig <- gheatmap(tree_fig, meta.host, width=0.05, offset=1.7, color="black",
                                "Pipistrellus kuhlii",
                                "Pipistrellus nathusii",
                                "Pipistrellus pygmaeus",
-                               "Myotis brandtii brandtii",
+                               "Myotis brandtii",
                                "Myotis dasycneme",
                                "Myotis daubentonii",
                                "Myotis lucifugus",
                                "Myotis petax",
                                "Myotis ricketti",
-                               "Myotis sibirica",
                                "Vespertilio murinus",
                                "Scotophilus kuhlii",
                                "Tylonycteris robustula",
@@ -213,7 +216,6 @@ tree_fig <- gheatmap(tree_fig, meta.host, width=0.05, offset=1.7, color="black",
                                "*Myotis lucifugus*",
                                "*Myotis petax*",
                                "*Myotis ricketti*",
-                               "*Myotis sibirica*",
                                "*Vespertilio murinus*",
                                "*Scotophilus kuhlii*",
                                "*Tylonycteris robustula*",
@@ -241,7 +243,6 @@ tree_fig <- gheatmap(tree_fig, meta.host, width=0.05, offset=1.7, color="black",
                                "#CD919E", # "Myotis_lucifugus"
                                "#CD96CD", # "Myotis_petax"
                                "#FFB5C5", # "Myotis_ricketti"
-                               "#FFBBFF", # "Myotis_sibirica"
                                "#8B2252", # "Vespertilio_murinus"
                                "#D02090", # "Scotophilus_kuhlii"
                                "#5D478B", # "Tylonycteris_robustula"
