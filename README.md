@@ -6,7 +6,7 @@
 - 📁 [`01_Phylogenetics`](https://github.com/PopovIILab/PhoACr/tree/main/01_Phylogenetics) - phylogenetic analysis
 - 📁 [`02_Seqs_identity`](https://github.com/PopovIILab/PhoACr/tree/main/02_Seqs_identity) - nucleotide sequences identity analysis
 - 📁 [`03_Map`](https://github.com/PopovIILab/PhoACr/tree/main/03_Map) - phylogeographic analysis
-- 📁 [`04_Primers_sens`](https://github.com/PopovIILab/PhoACr/tree/main/04_Primers_sens) - PCR primers selectivity analysis
+- 📁 [`04_Primers`](https://github.com/PopovIILab/PhoACr/tree/main/04_Primers) - PCR primers selectivity analysis
 
 
 **Instruction**:
