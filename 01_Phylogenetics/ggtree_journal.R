@@ -45,6 +45,9 @@ meta.host["OQ725983.1", "Host"] <- "Myotis brandtii"
 meta.host["MG923572.2", "Host"] <- "Myotis brandtii"
 meta.host["AF304460.1", "Host"] <- "Homo sapiens"
 meta.host["AY567487.2", "Host"] <- "Homo sapiens"
+meta.host["PQ450473.1", "Host"] <- "Myotis sibiricus"
+meta.host["PQ450475.1", "Host"] <- "Myotis sibiricus"
+meta.host["PQ450480.1", "Host"] <- "Myotis sibiricus"
 
 # `Country` column
 
@@ -189,6 +192,7 @@ tree_fig <- gheatmap(tree_fig, meta.host, width=0.05, offset=1.7, color="black",
                                "Myotis lucifugus",
                                "Myotis petax",
                                "Myotis ricketti",
+                               "Myotis sibiricus",
                                "Vespertilio murinus",
                                "Scotophilus kuhlii",
                                "Tylonycteris robustula",
@@ -216,6 +220,7 @@ tree_fig <- gheatmap(tree_fig, meta.host, width=0.05, offset=1.7, color="black",
                                "*Myotis lucifugus*",
                                "*Myotis petax*",
                                "*Myotis ricketti*",
+                               "*Myotis sibiricus*",
                                "*Vespertilio murinus*",
                                "*Scotophilus kuhlii*",
                                "*Tylonycteris robustula*",
@@ -243,6 +248,7 @@ tree_fig <- gheatmap(tree_fig, meta.host, width=0.05, offset=1.7, color="black",
                                "#CD919E", # "Myotis_lucifugus"
                                "#CD96CD", # "Myotis_petax"
                                "#FFB5C5", # "Myotis_ricketti"
+                               "#FFBBFF", # "Myotis_sibiricus"
                                "#8B2252", # "Vespertilio_murinus"
                                "#D02090", # "Scotophilus_kuhlii"
                                "#5D478B", # "Tylonycteris_robustula"

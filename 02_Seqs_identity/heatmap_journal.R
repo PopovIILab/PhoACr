@@ -113,6 +113,9 @@ metadata$Host[metadata$Name == "OQ725983.1"] <- "Myotis brandtii"
 metadata$Host[metadata$Name == "MG923572.2"] <- "Myotis brandtii"
 metadata$Host[metadata$Name == "AF304460.1"] <- "Homo sapiens"
 metadata$Host[metadata$Name == "AY567487.2"] <- "Homo sapiens"
+metadata$Host[metadata$Name == "PQ450473.1"] <- "Myotis sibiricus"
+metadata$Host[metadata$Name == "PQ450475.1"] <- "Myotis sibiricus"
+metadata$Host[metadata$Name == "PQ450480.1"] <- "Myotis sibiricus"
 
 # `Country` column
 
@@ -144,6 +147,7 @@ p2<-metadata %>%
                                "Myotis lucifugus",
                                "Myotis petax",
                                "Myotis ricketti",
+                               "Myotis sibiricus",
                                "Vespertilio murinus",
                                "Scotophilus kuhlii",
                                "Tylonycteris robustula",
@@ -170,6 +174,7 @@ p2<-metadata %>%
                                "*Myotis lucifugus*",
                                "*Myotis petax*",
                                "*Myotis ricketti*",
+                               "*Myotis sibiricus*",
                                "*Vespertilio murinus*",
                                "*Scotophilus kuhlii*",
                                "*Tylonycteris robustula*",
@@ -196,6 +201,7 @@ p2<-metadata %>%
                                "#CD919E", # "Myotis_lucifugus"
                                "#CD96CD", # "Myotis_petax"
                                "#FFB5C5", # "Myotis_ricketti"
+                               "#FFBBFF", # "Myotis_sibiricus"
                                "#8B2252", # "Vespertilio_murinus"
                                "#D02090", # "Scotophilus_kuhlii"
                                "#5D478B", # "Tylonycteris_robustula"
