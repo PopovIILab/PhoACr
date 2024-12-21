@@ -15,6 +15,12 @@
 conda env create -f phoacr.yaml
 ```
 
+**Pipeline:**
+
+<img src="https://github.com/PopovIILab/PhoACr/blob/main/imgs/PhoACr.png" width="100%"/>
+
+_Figure 1. Pipeline overview._
+
 ### System
 
 - OS: Ubuntu 22.04 (WSL2 on Windows 11 22H2)
