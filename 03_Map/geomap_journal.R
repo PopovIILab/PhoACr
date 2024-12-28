@@ -25,12 +25,12 @@ world_countries <- ne_countries(scale = "small", returnclass = "sf")
 # Set coordinates of cities
 cities <- data.frame(
   city = c(
-    "Rostov-on-Don (2021-2023)",
+    "Rostov-on-Don (2021–2023)",
     "Moscow (2015, 2021)",
     "Vadum (2014)",
     "Mustasaari (2016)*",
     "Bad Segeberg (2007)",
-    "Novosibirsk (2021-2023)",
+    "Novosibirsk (2021–2023)",
     "Moensted (2016)**"
   ),
   lat = c(47.2357, 55.6552, 57.11778, 63.1167, 53.9370, 54.8324, 56.2646),
