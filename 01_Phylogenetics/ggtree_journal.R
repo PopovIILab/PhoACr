@@ -288,13 +288,9 @@ tree_fig <- gheatmap(
       "Bat",
       "microbat",
       "Rattus norvegicus",
-      #Грызун
       "Mustela vison",
-      #Норка
       "Sorex araneus",
-      #Землеройка
       "Suncus murinus",
-      #Землеройка
       "pig",
       NA
     ),
@@ -322,13 +318,9 @@ tree_fig <- gheatmap(
       "Bat*",
       "Microbat*",
       "*Rattus norvegicus*",
-      #Грызун
       "*Mustela vison*",
-      #Норка
       "*Sorex araneus*",
-      #Землеройка
       "*Suncus murinus*",
-      #Землеройка
       "Pig*",
       "NA"
     ),
@@ -386,8 +378,8 @@ tree_fig <- gheatmap(
       "#8B4500",
       # "*Suncus murinus*"
       "#EEE9E9"
+      # "Pig"
     ),
-    # "Pig"
     na.translate = TRUE,
     na.value = "white",
     name = "Host"
