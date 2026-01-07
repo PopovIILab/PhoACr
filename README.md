@@ -1,4 +1,4 @@
-# Phylogenetics of _Alphacoronaviruses_
+# Phylogenetics of _Alphacoronaviruses_s
 
 > This is the repository for supplementary materials for the [publication](#citation)
 
