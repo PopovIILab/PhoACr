@@ -5,7 +5,7 @@ channels:
   - defaults
 dependencies:
   - python=3.13.0
-  - biopython=1.84
+  - biopython=1.85
   - emboss=6.6.0
   - entrez-direct=22.4
   - iqtree=2.3.6
