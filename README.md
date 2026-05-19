@@ -1,4 +1,5 @@
 # Phylogenetics of _Alphacoronaviruses_
+[![CI](https://github.com/PopovIILab/PhoACr/actions/workflows/test-env.yml/badge.svg)](https://github.com/PopovIILab/PhoACr/actions/workflows/test-env.yml)
 
 > This is the repository for supplementary materials for the [publication](#citation)
 
