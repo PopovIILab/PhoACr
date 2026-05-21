@@ -5,8 +5,9 @@ setwd(main_dir)
 
 # Load/install required packages
 
-if (!require("pacman"))
+if (!require("pacman")) {
   install.packages("pacman")
+}
 
 pacman::p_load(
   ggtree,
@@ -67,7 +68,10 @@ meta.loc <- as.data.frame(metadata[, 'Country'])
 colnames(meta.loc) <- 'Country'
 rownames(meta.loc) <- metadata$Name
 meta.loc$Country[meta.loc$Country == "ND"] <- NA
-meta.loc$Country[grepl("^Russia: Nov", meta.loc$Country)] <- "Russia: Novosibirsk"
+meta.loc$Country[grepl(
+  "^Russia: Nov",
+  meta.loc$Country
+)] <- "Russia: Novosibirsk"
 meta.loc["OR052074.1", "Country"] <- "Russia: Rostov-on-Don"
 meta.loc["OR052075.1", "Country"] <- "Russia: Rostov-on-Don"
 meta.loc["OR052076.1", "Country"] <- "Russia: Rostov-on-Don"
@@ -92,7 +96,8 @@ midpoint.root(tree)
 
 # Draft tree
 
-tree_fig <- ggtree(tree) %<+% metadata +
+tree_fig <- ggtree(tree) %<+%
+  metadata +
   xlim(0, 4.7) +
   geom_tiplab(
     aes(
@@ -100,35 +105,57 @@ tree_fig <- ggtree(tree) %<+% metadata +
       #fontface = ifelse(grepl("^PQ", Full.Name), "bold", "plain"),
       # Bold if starts with "PQ"
       color = ifelse(
-        grepl(paste0("^(", paste(
-          c(
-            "PQ439331.1",
-            "PQ439332.1",
-            "PQ439333.1",
-            "PQ439334.1",
-            "PQ450477.1",
-            "PQ450472.1",
-            "PQ450475.1",
-            "PQ450471.1",
-            "PQ450476.1",
-            "PQ450479.1",
-            "PQ450474.1",
-            "PQ450473.1",
-            "PQ450480.1"
+        grepl(
+          paste0(
+            "^(",
+            paste(
+              c(
+                "PQ439331.1",
+                "PQ439332.1",
+                "PQ439333.1",
+                "PQ439334.1",
+                "PQ450477.1",
+                "PQ450472.1",
+                "PQ450475.1",
+                "PQ450471.1",
+                "PQ450476.1",
+                "PQ450479.1",
+                "PQ450474.1",
+                "PQ450473.1",
+                "PQ450480.1"
+              ),
+              collapse = "|"
+            ),
+            ")"
           ),
-          collapse = "|"
-        ), ")"), Full.Name),
+          Full.Name
+        ),
         "#d335f2",
         ifelse(
-          grepl(paste0("^(", paste(
-            c("DQ648858.1", "MG923574.2"), collapse = "|"
-          ), ")"), Full.Name),
+          grepl(
+            paste0(
+              "^(",
+              paste(
+                c("DQ648858.1", "MG923574.2"),
+                collapse = "|"
+              ),
+              ")"
+            ),
+            Full.Name
+          ),
           "#6f1c80",
           ifelse(
-            grepl(paste0("^(", paste(
-              c("PQ450482.1", "PQ450478.1", "PQ450481.1", "PQ450483.1"),
-              collapse = "|"
-            ), ")"), Full.Name),
+            grepl(
+              paste0(
+                "^(",
+                paste(
+                  c("PQ450482.1", "PQ450478.1", "PQ450481.1", "PQ450483.1"),
+                  collapse = "|"
+                ),
+                ")"
+              ),
+              Full.Name
+            ),
             "#35b3f2",
             ifelse(
               grepl("^KJ473806.1", Full.Name),
@@ -136,9 +163,18 @@ tree_fig <- ggtree(tree) %<+% metadata +
               ifelse(
                 grepl("^PQ439335.1", Full.Name),
                 "#f2a035",
-                ifelse(grepl(paste0(
-                  "^(", paste(c("MK472068.1", "MK720944.1"), collapse = "|"), ")"
-                ), Full.Name), "#80541c", "black")
+                ifelse(
+                  grepl(
+                    paste0(
+                      "^(",
+                      paste(c("MK472068.1", "MK720944.1"), collapse = "|"),
+                      ")"
+                    ),
+                    Full.Name
+                  ),
+                  "#80541c",
+                  "black"
+                )
               )
             )
           )
@@ -163,11 +199,14 @@ tree_boot$bootstrap[is.na(tree_boot$label)] <- '1'
 
 # Add bootstrap values to the tree (black branches = bootstrap >70; grey branches = bootstrap <70)
 
-tree_fig <- tree_fig + new_scale_color() +
+tree_fig <- tree_fig +
+  new_scale_color() +
   geom_tree(data = tree_boot, aes(color = bootstrap == '1')) +
-  scale_color_manual(name = 'Bootstrap',
-                     values = setNames(c("black", "grey"), c(T, F)),
-                     guide = "none")
+  scale_color_manual(
+    name = 'Bootstrap',
+    values = setNames(c("black", "grey"), c(T, F)),
+    guide = "none"
+  )
 
 # Add `Location` heatmap
 
@@ -384,7 +423,12 @@ tree_fig <- gheatmap(
     na.value = "white",
     name = "Host"
   ) +
-  guides(fill = guide_legend(title.theme = element_markdown(), label.theme = element_markdown())) +
+  guides(
+    fill = guide_legend(
+      title.theme = element_markdown(),
+      label.theme = element_markdown()
+    )
+  ) +
   theme(legend.title = element_text(), legend.text = element_text()) +
   new_scale_fill()
 

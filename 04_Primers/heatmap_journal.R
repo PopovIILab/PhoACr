@@ -3,8 +3,9 @@ main_dir <- dirname(rstudioapi::getSourceEditorContext()$path)
 setwd(main_dir)
 
 # Install or call libraries
-if (!require("pacman"))
+if (!require("pacman")) {
   install.packages("pacman")
+}
 
 pacman::p_load(dplyr, stringr, tidyr, tidyverse, ggnewscale, ggtext, patchwork)
 
@@ -20,20 +21,24 @@ data <- data.frame(line = lines, stringsAsFactors = FALSE)
 
 # Extract primer names
 data <- data %>%
-  mutate(Primer = ifelse(
-    str_detect(line, "^Primer name"),
-    str_extract(line, "(?<=Primer name ).+"),
-    NA
-  )) %>%
+  mutate(
+    Primer = ifelse(
+      str_detect(line, "^Primer name"),
+      str_extract(line, "(?<=Primer name ).+"),
+      NA
+    )
+  ) %>%
   fill(Primer, .direction = "down")
 
 # Extract sequence names
 data <- data %>%
-  mutate(Sequence = ifelse(
-    str_detect(line, "^\\s*Sequence:"),
-    str_extract(line, "(?<=Sequence: )[^ ]+"),
-    NA
-  )) %>%
+  mutate(
+    Sequence = ifelse(
+      str_detect(line, "^\\s*Sequence:"),
+      str_extract(line, "(?<=Sequence: )[^ ]+"),
+      NA
+    )
+  ) %>%
   fill(Sequence, .direction = "down")
 
 # Extract forward and reverse mismatches
@@ -53,8 +58,10 @@ data <- data %>%
 
 # Filter rows to keep only lines where mismatches are recorded
 mismatch_data <- data %>%
-  filter(!is.na(Forward_mismatches) |
-           !is.na(Reverse_mismatches)) %>%
+  filter(
+    !is.na(Forward_mismatches) |
+      !is.na(Reverse_mismatches)
+  ) %>%
   select(Primer, Sequence, Forward_mismatches, Reverse_mismatches)
 
 # Remove duplicate entries if they exist, by taking the first non-NA value in each column
@@ -75,7 +82,10 @@ mismatch_df <- mismatch_data %>%
   )
 
 # Reorder columns to group Forward and Reverse columns for each primer
-ordered_columns <- c("Sequence", sort(colnames(mismatch_df)[-1], method = "radix"))
+ordered_columns <- c(
+  "Sequence",
+  sort(colnames(mismatch_df)[-1], method = "radix")
+)
 mismatch_df <- mismatch_df %>%
   select(all_of(ordered_columns))
 
@@ -84,10 +94,10 @@ number_to_text <- function(x) {
   if (is.na(x)) {
     return("No_hit")
   }
-  
+
   # Define text representations for specific numbers
   words <- c("Zero", "One", "Two", "Three", "Four", "Five")
-  
+
   # Convert numeric values to text if within range; otherwise, keep as numeric
   if (x >= 0 && x <= 5) {
     return(words[x + 1])
@@ -107,7 +117,6 @@ print(mismatch_df)
 write.csv(mismatch_df, file = "mismatch_df.csv", row.names = FALSE)
 
 
-
 # Heatmap_metadata -----------------------------------------------------------------
 
 # Metadata was created manually by Igor Popov and consisted of `Sequence_id;Name;Host;Genera` columns
@@ -116,88 +125,91 @@ metadata <- read.table("virus_metadata.csv", sep = ";", header = T)
 
 p1 <- metadata %>%
   ggplot() +
-  geom_tile(aes(
-    x = Axis_A,
-    fill = Sequence_id,
-    y = factor(
-      Name,
-      level = c(
-        "Bat coronavirus",
-        "Shrew coronavirus",
-        "Rodent coronavirus",
-        "Bat coronavirus isolate PREDICT/PDF-2180",
-        "Duck coronavirus",
-        "Infectious bronchitis virus isolate Ind-TN92-03",
-        "Canada goose coronavirus",
-        "Turkey coronavirus",
-        "Beluga whale coronavirus SW1",
-        "Avian infectious bronchitis virus",
-        "Porcine coronavirus HKU15",
-        "Common moorhen coronavirus HKU21",
-        "Wigeon coronavirus HKU20",
-        "Night heron coronavirus HKU19",
-        "Magpie-robin coronavirus HKU18",
-        "Sparrow coronavirus HKU17",
-        "White-eye coronavirus HKU16",
-        "Munia coronavirus HKU13-3514",
-        "Thrush coronavirus HKU12-600",
-        "Bulbul coronavirus HKU11-934",
-        "Severe acute respiratory syndrome coronavirus 2",
-        "Betacoronavirus England 1",
-        "Rousettus bat coronavirus",
-        "Middle East respiratory syndrome-related coronavirus",
-        "Rabbit coronavirus HKU14",
-        "Bat coronavirus BM48-31/BGR/2008",
-        "Rousettus bat coronavirus HKU9",
-        "Pipistrellus bat coronavirus HKU5",
-        "Tylonycteris bat coronavirus HKU4",
-        "SARS coronavirus Tor2",
-        "Human coronavirus HKU1",
-        "Murine hepatitis virus strain JHM",
-        "Murine hepatitis virus strain A59",
-        "Betacoronavirus Erinaceus/VMC/DEU/2012",
-        "Betacoronavirus HKU24",
-        "Bat Hp-betacoronavirus/Zhejiang2013",
-        "Rat coronavirus Parker",
-        "Human coronavirus OC43",
-        "Bovine coronavirus",
-        "Murine hepatitis virus strain MHV-A59",
-        "Bat alphacoronavirus isolate AMA_L_F",
-        "NL63-related bat coronavirus strain BtKYNL63-9b",
-        "Wencheng Sm shrew coronavirus isolate Xingguo-74",
-        "Alphacoronavirus Bat-CoV/P.kuhlii/Italy/3398-19/2015",
-        "Wencheng Sm shrew coronavirus isolate Xingguo-101",
-        "Coronavirus AcCoV-JC34",
-        "Ferret coronavirus",
-        "BtNv-AlphaCoV/SC2013",
-        "BtRf-AlphaCoV/YN2012",
-        "Bat coronavirus CDPHE15/USA/2006",
-        "Human coronavirus NL63",
-        "Lucheng Rn rat coronavirus",
-        "Camel alphacoronavirus",
-        "Rousettus bat coronavirus HKU10",
-        "Human coronavirus 229E",
-        "Alphacoronavirus sp. isolate WA3607",
-        "Alphacoronavirus sp. isolate WA2028",
-        "Bat alphacoronavirus isolate BtCoV/020_16/M.dau/FIN/2016",
-        "Tylonycteris bat coronavirus HKU33",
-        "Hipposideros pomona bat coronavirus CHB25",
-        "Alphacoronavirus sp. isolate WA1087",
-        "Transmissible gastroenteritis virus",
-        "NL63-related bat coronavirus strain BtKYNL63-9a",
-        "BtRf-AlphaCoV/HuB2013",
-        "BtMr-AlphaCoV/SAX2011",
-        "Swine enteric coronavirus",
-        "Mink coronavirus strain WD1127",
-        "Miniopterus bat coronavirus HKU8",
-        "Bat coronavirus 1A",
-        "Rhinolophus bat coronavirus HKU2",
-        "Scotophilus bat coronavirus 512",
-        "Porcine epidemic diarrhea virus",
-        "Feline infectious peritonitis virus"
+  geom_tile(
+    aes(
+      x = Axis_A,
+      fill = Sequence_id,
+      y = factor(
+        Name,
+        level = c(
+          "Bat coronavirus",
+          "Shrew coronavirus",
+          "Rodent coronavirus",
+          "Bat coronavirus isolate PREDICT/PDF-2180",
+          "Duck coronavirus",
+          "Infectious bronchitis virus isolate Ind-TN92-03",
+          "Canada goose coronavirus",
+          "Turkey coronavirus",
+          "Beluga whale coronavirus SW1",
+          "Avian infectious bronchitis virus",
+          "Porcine coronavirus HKU15",
+          "Common moorhen coronavirus HKU21",
+          "Wigeon coronavirus HKU20",
+          "Night heron coronavirus HKU19",
+          "Magpie-robin coronavirus HKU18",
+          "Sparrow coronavirus HKU17",
+          "White-eye coronavirus HKU16",
+          "Munia coronavirus HKU13-3514",
+          "Thrush coronavirus HKU12-600",
+          "Bulbul coronavirus HKU11-934",
+          "Severe acute respiratory syndrome coronavirus 2",
+          "Betacoronavirus England 1",
+          "Rousettus bat coronavirus",
+          "Middle East respiratory syndrome-related coronavirus",
+          "Rabbit coronavirus HKU14",
+          "Bat coronavirus BM48-31/BGR/2008",
+          "Rousettus bat coronavirus HKU9",
+          "Pipistrellus bat coronavirus HKU5",
+          "Tylonycteris bat coronavirus HKU4",
+          "SARS coronavirus Tor2",
+          "Human coronavirus HKU1",
+          "Murine hepatitis virus strain JHM",
+          "Murine hepatitis virus strain A59",
+          "Betacoronavirus Erinaceus/VMC/DEU/2012",
+          "Betacoronavirus HKU24",
+          "Bat Hp-betacoronavirus/Zhejiang2013",
+          "Rat coronavirus Parker",
+          "Human coronavirus OC43",
+          "Bovine coronavirus",
+          "Murine hepatitis virus strain MHV-A59",
+          "Bat alphacoronavirus isolate AMA_L_F",
+          "NL63-related bat coronavirus strain BtKYNL63-9b",
+          "Wencheng Sm shrew coronavirus isolate Xingguo-74",
+          "Alphacoronavirus Bat-CoV/P.kuhlii/Italy/3398-19/2015",
+          "Wencheng Sm shrew coronavirus isolate Xingguo-101",
+          "Coronavirus AcCoV-JC34",
+          "Ferret coronavirus",
+          "BtNv-AlphaCoV/SC2013",
+          "BtRf-AlphaCoV/YN2012",
+          "Bat coronavirus CDPHE15/USA/2006",
+          "Human coronavirus NL63",
+          "Lucheng Rn rat coronavirus",
+          "Camel alphacoronavirus",
+          "Rousettus bat coronavirus HKU10",
+          "Human coronavirus 229E",
+          "Alphacoronavirus sp. isolate WA3607",
+          "Alphacoronavirus sp. isolate WA2028",
+          "Bat alphacoronavirus isolate BtCoV/020_16/M.dau/FIN/2016",
+          "Tylonycteris bat coronavirus HKU33",
+          "Hipposideros pomona bat coronavirus CHB25",
+          "Alphacoronavirus sp. isolate WA1087",
+          "Transmissible gastroenteritis virus",
+          "NL63-related bat coronavirus strain BtKYNL63-9a",
+          "BtRf-AlphaCoV/HuB2013",
+          "BtMr-AlphaCoV/SAX2011",
+          "Swine enteric coronavirus",
+          "Mink coronavirus strain WD1127",
+          "Miniopterus bat coronavirus HKU8",
+          "Bat coronavirus 1A",
+          "Rhinolophus bat coronavirus HKU2",
+          "Scotophilus bat coronavirus 512",
+          "Porcine epidemic diarrhea virus",
+          "Feline infectious peritonitis virus"
+        )
       )
-    )
-  ), show.legend = FALSE) +
+    ),
+    show.legend = FALSE
+  ) +
   scale_fill_manual(
     values = c(
       "white",
@@ -326,7 +338,9 @@ p1 <- metadata %>%
     na.value = "white"
   ) +
   geom_text(aes(x = Axis_B, y = Name, label = Genera_title), size = 3) +
-  scale_x_discrete(labels = c("a" = "GenBank ID", "b" = "CoV<br>genus", "c" = "Host")) +
+  scale_x_discrete(
+    labels = c("a" = "GenBank ID", "b" = "CoV<br>genus", "c" = "Host")
+  ) +
   theme(
     axis.line = element_blank(),
     axis.ticks = element_blank(),
@@ -353,9 +367,11 @@ ggsave(
 # Heatmap_PCR -------------------------------------------------------------
 
 PCR <- read.table("mismatch_df.csv", sep = ",", header = T) %>%
-  pivot_longer(cols = -c(Sequence),
-               names_to = "Primers",
-               values_to = "Mismatch")
+  pivot_longer(
+    cols = -c(Sequence),
+    names_to = "Primers",
+    values_to = "Mismatch"
+  )
 
 p2 <- PCR %>%
   ggplot() +

@@ -3,8 +3,9 @@ main_dir <- dirname(rstudioapi::getSourceEditorContext()$path)
 setwd(main_dir)
 
 # Install or call libraries
-if (!require("pacman"))
+if (!require("pacman")) {
   install.packages("pacman")
+}
 
 pacman::p_load(tidyverse, raster, sf, rnaturalearth, ggrepel, ggspatial)
 
@@ -12,11 +13,12 @@ pacman::p_load(tidyverse, raster, sf, rnaturalearth, ggrepel, ggspatial)
 
 natearth_map <-
   raster::stack('NE2_HR_LC_SR_W_DR/NE2_HR_LC_SR_W_DR.tif') %>% # import tiff as rasterStack
-  crop(extent(1, 85, 40, 65)) %>%                                   # subset to desired extent
-  as.array %>%                                                      # convert to 3D array
-  `/`(255) %>%                                                      # switch to proportions to meet rgb() requirements
-  apply(c(1, 2), function(x)
-    rgb(matrix(x, ncol = 3))) %>%          # collapse layers to RGB colors
+  crop(extent(1, 85, 40, 65)) %>% # subset to desired extent
+  as.array %>% # convert to 3D array
+  `/`(255) %>% # switch to proportions to meet rgb() requirements
+  apply(c(1, 2), function(x) {
+    rgb(matrix(x, ncol = 3))
+  }) %>% # collapse layers to RGB colors
   annotation_raster(1, 85, 40, 65)
 
 # Create a map of world countries
@@ -93,9 +95,7 @@ ggplot(data = world_countries) +
     shape = 21,
     fill = "darkred"
   ) +
-  coord_sf(xlim = c(1, 85),
-           ylim = c(45, 65),
-           expand = FALSE) +
+  coord_sf(xlim = c(1, 85), ylim = c(45, 65), expand = FALSE) +
   annotation_scale(location = "bl", width_hint = 0.4) +
   annotation_north_arrow(
     location = "bl",

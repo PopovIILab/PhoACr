@@ -5,8 +5,9 @@ setwd(main_dir)
 
 # Load/install required packages
 
-if (!require("pacman"))
+if (!require("pacman")) {
   install.packages("pacman")
+}
 
 pacman::p_load(tidyverse, ggtext, patchwork, ggnewscale)
 
@@ -18,27 +19,17 @@ pacman::p_load(tidyverse, ggtext, patchwork, ggnewscale)
 
 # Read the data
 
-data <- read.table('data.csv',
-                   sep = ';',
-                   comment = '',
-                   head = T)
+data <- read.table('data.csv', sep = ';', comment = '', head = T)
 
 data_rows <- data %>%
-  pivot_longer(cols = -GENBANK_ID,
-               names_to = "OUR_ID",
-               values_to = "identity")
+  pivot_longer(cols = -GENBANK_ID, names_to = "OUR_ID", values_to = "identity")
 
 # Read the data on our seqs
 
-data_our <- read.table('data_our.csv',
-                       sep = ';',
-                       comment = '',
-                       head = T)
+data_our <- read.table('data_our.csv', sep = ';', comment = '', head = T)
 
 data_our_rows <- data_our %>%
-  pivot_longer(cols = -GENBANK_ID,
-               names_to = "OUR_ID",
-               values_to = "identity")
+  pivot_longer(cols = -GENBANK_ID, names_to = "OUR_ID", values_to = "identity")
 
 data_rows$identity <- data_rows$identity * 100
 
@@ -66,8 +57,9 @@ p1 <- data_general %>%
   ) +
   scale_x_discrete(position = "top") +
   scale_y_discrete(
-    labels = function(labels)
-      gsub("^PK", "", labels),
+    labels = function(labels) {
+      gsub("^PK", "", labels)
+    },
     position = "left"
   ) +
   theme(
@@ -87,9 +79,11 @@ p1 <- data_general %>%
 
 # Load `metadata` from the previous step
 
-metadata <- read.table('../01_Phylogenetics/metadata/metadata.tsv',
-                       sep = '\t',
-                       header = T)
+metadata <- read.table(
+  '../01_Phylogenetics/metadata/metadata.tsv',
+  sep = '\t',
+  header = T
+)
 metadata <- rbind(metadata, c(Name = "PK", rep(NA, ncol(metadata) - 1)))
 
 # Delete the row with "OQ725987.1". Do not ask why. Collaborators told us to.
@@ -139,7 +133,10 @@ metadata$Host[metadata$Name == "PQ450480.1"] <- "Myotis sibiricus"
 # `Country` column
 
 metadata$Country[metadata$Country == "ND"] <- NA
-metadata$Country[grepl("^Russia: Nov", metadata$Country)] <- "Russia: Novosibirsk"
+metadata$Country[grepl(
+  "^Russia: Nov",
+  metadata$Country
+)] <- "Russia: Novosibirsk"
 metadata$Country[metadata$Name == "OR052074.1"] <- "Russia: Rostov-on-Don"
 metadata$Country[metadata$Name == "OR052075.1"] <- "Russia: Rostov-on-Don"
 metadata$Country[metadata$Name == "OR052076.1"] <- "Russia: Rostov-on-Don"
@@ -373,8 +370,7 @@ p2 <- metadata %>%
     na.value = "white"
   ) +
   geom_text(aes(x = Z, y = Name, label = as.factor(Year)), size = 3) +
-  scale_x_discrete(labels = c("Location", "Host", "Year"),
-                   position = "top") +
+  scale_x_discrete(labels = c("Location", "Host", "Year"), position = "top") +
   new_scale_fill() +
   theme(
     axis.text.y = element_blank(),
@@ -392,7 +388,7 @@ p2 <- metadata %>%
     # Transparent panel
     plot.background = element_rect(fill = "transparent", color = NA),
     # Transparent plot background
-    legend.background = element_rect(fill = "transparent", color = NA)  # Transparent legend background
+    legend.background = element_rect(fill = "transparent", color = NA) # Transparent legend background
   )
 
 # Combine plots
